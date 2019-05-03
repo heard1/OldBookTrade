@@ -2,9 +2,6 @@ package lsc.web;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-
 public class Book {
     public String bookname;
     public boolean isdeal;
