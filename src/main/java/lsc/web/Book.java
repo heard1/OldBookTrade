@@ -18,7 +18,7 @@ public class Book {
     public static boolean salebook(JdbcTemplate sql, int bookID, String bookname, String category, double oriprice, double curprice, String link, String intro) {
         try{
             sql.update("insert into book (bookID, bookname, isdeal, SBtype, oriprice, curprice, link, intro, category) values(?,?,?,?,?,?,?,?,?)",new Object[] {bookID, bookname, false, true, oriprice, curprice, link, intro, category});
-            //TODO: sql.update("insert into trade (bookID, sale, isdeal) values(?,?,?)",new Object[] {bookID, account, false});
+            // TODO: sql.update("insert into trade (bookID, sale, isdeal) values(?,?,?)",new Object[] {bookID, account, false});
             return true;
         } catch (Exception e) {
             return false;
@@ -28,7 +28,7 @@ public class Book {
     public static boolean buybook(JdbcTemplate sql, int bookID, String bookname, String category, double curprice, String link, String intro) {
         try{
             sql.update("insert into book (bookID, bookname, isdeal, SBtype, curprice, link, intro, category) values(?,?,?,?,?,?,?,?)",new Object[] {bookID, bookname, false, false, curprice, link, intro, category});
-            //TODO: sql.update("insert into trade (bookID, buy, isdeal) values(?,?,?)",new Object[] {bookID, account, false});
+            // TODO: sql.update("insert into trade (bookID, buy, isdeal) values(?,?,?)",new Object[] {bookID, account, false});
             return true;
         } catch (Exception e) {
             return false;
