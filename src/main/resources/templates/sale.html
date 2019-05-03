@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="zxx" xmlns:th="http://www.springframework.org/schema/jdbc">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <title>卖书</title>
+
+    <!--=== Favicon ===-->
+<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+<!--=== Bootstrap CSS ===-->
+<link href="css/vendor/bootstrap.min.css" rel="stylesheet">
+<!--=== Font-Awesome CSS ===-->
+<link href="css/vendor/font-awesome.css" rel="stylesheet">
+<!--=== Plugins CSS ===-->
+<link href="css/plugins.css" rel="stylesheet">
+<!--=== Helper CSS ===-->
+<link href="css/helper.min.css" rel="stylesheet">
+<!--=== Main Style CSS ===-->
+<link href="css/style.css" rel="stylesheet">
+
+<!-- Modernizer JS -->
+<script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<header id="header-area">
+    <!-- Start Main Menu Area -->
+    <div class="navigation-area" id="fixheader">
+        <div class="container">
+            <div class="row">
+                <!-- Categories List Start -->
+                <div class="col-10 col-lg-3">
+                    <div class="categories-list-wrap">
+                        <button class="btn btn-category d-none d-lg-inline-block">旧书交易网站
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Menu Start -->
+                <div class="col-2 col-lg-9 d-none d-lg-block">
+                    <div class="main-menu-wrap">
+                        <nav class="mainmenu">
+    <ul class="main-navbar clearfix">
+        <li><a href="home.html">主页</a></li>
+        <li><a href="sale.html">我要卖书</a></li>
+        <li><a href="buy.html">我要买书</a></li>
+        <li><a href="trade.html">我的交易</a></li>
+        <li><a href="search.html">书籍搜索</a></li>
+        <li><a href="chat.html">聊天室</a></li>
+    </ul>
+</nav>
+                    </div>
+                </div>
+                <!-- Main Menu End -->
+            </div>
+        </div>
+    </div>
+    <!-- End Main Menu Area -->
+</header>
+<!--== End Header Section ==-->
+
+<!--== Page Content Wrapper Start ==-->
+<div id="page-content-wrapper">
+    <div class="container">
+        <div class="member-area-from-wrap">
+            <div class="col-lg-12">
+                <div class="checkout-billing-details-wrap">
+                    <h2>卖书信息</h2>
+                    <div class="billing-form-wrap">
+                        <form action="salebook" method="post">
+                            <div class="single-input-item">
+                                <label >书名</label>
+                                <input type="text" name="bookname" required>
+                            </div>
+
+                            <div class="single-input-item">
+                                <label>类别</label>
+                                <select name="category" id="category" style="display: none;" required>
+                                    <option value="综合">综合</option>
+                                    <option value="哲学">哲学</option>
+                                    <option value="文学">文学</option>
+                                    <option value="艺术">艺术</option>
+                                    <option value="旅游">旅游</option>
+                                    <option value="体育">体育</option>
+                                    <option value="经济">经济</option>
+                                    <option value="法律">法律</option>
+                                    <option value="历史">历史</option>
+                                    <option value="工具">工具</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                                <div class="nice-select" tabindex="0"><span class="current" >选择类别</span>
+                                    <ul class="list">
+                                        <li data-value="综合" class="option">综合</li>
+                                        <li data-value="哲学" class="option">哲学</li>
+                                        <li data-value="文学" class="option">文学</li>
+                                        <li data-value="艺术" class="option">艺术</li>
+                                        <li data-value="旅游" class="option">旅游</li>
+                                        <li data-value="体育" class="option">体育</li>
+                                        <li data-value="经济" class="option">经济</li>
+                                        <li data-value="法律" class="option">法律</li>
+                                        <li data-value="历史" class="option">历史</li>
+                                        <li data-value="工具" class="option">工具</li>
+                                        <li data-value="其他" class="option">其他</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+                            <div class="single-input-item">
+                                <label >原价</label>
+                                <input type="text" id="oriprice" name="oriprice" onchange = "checkori()" required>
+                            </div>
+                            <div class="single-input-item">
+                                <label >现价</label>
+                                <input type="text" id="curprice" name="curprice" onchange = "checkcur()" required>
+                            </div>
+                            <div class="single-input-item">
+                                <label >外部链接</label>
+                                <input type="text" name="link" required>
+                            </div>
+
+
+                            <div class="single-input-item">
+                                <label for="ordernote">介绍</label>
+                                <textarea name="intro" id="ordernote" cols="30" rows="3"></textarea>
+                            </div>
+                            <div class="single-input-item">
+                                <label >上传照片（.JPG）</label>
+                                <input type="file" id="upload" name="upload" required/> <br/>
+                            </div>
+                            <div class="single-input-item col-md-6 m-auto text-center">
+                                <button class="btn">发布</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--== Page Content Wrapper End ==-->
+
+
+
+<!--== Start Footer Area ==-->
+<footer id="footer-area">
+
+
+    <!-- Footer Bottom Area -->
+    <div class="footer-bttom-area">
+        <div class="container">
+            <div class="row">
+                <!-- Copyright Text Area -->
+                <div class="col-md-6 m-auto text-center">
+                    <p>Copyright &copy; 李思聪的BS作业</p>
+                </div>
+                <!-- Copyright Text Area -->
+            </div>
+        </div>
+    </div>
+    <!-- Footer Bottom Area -->
+</footer>
+<!--== End Footer Area ==-->
+
+<!-- Scroll to Top Start -->
+<a href="#" class="scrolltotop"><i class="fa fa-angle-up"></i></a>
+<!-- Scroll to Top End -->
+
+
+<!--=======================Javascript============================-->
+<!--=== Jquery Min Js ===-->
+<script src="js/vendor/jquery-3.3.1.min.js"></script>
+<!--=== Jquery Migrate Min Js ===-->
+<script src="js/vendor/jquery-migrate-1.4.1.min.js"></script>
+<!--=== Popper Min Js ===-->
+<script src="js/vendor/popper.min.js"></script>
+<!--=== Bootstrap Min Js ===-->
+<script src="js/vendor/bootstrap.min.js"></script>
+<!--=== Ajax Mail Js ===-->
+<script src="js/ajax-mail.js"></script>
+<!--=== Plugins Min Js ===-->
+<script src="js/plugins.js"></script>
+
+<!--=== Active Js ===-->
+<script src="js/active.js"></script>
+</body>
+</html>
+
+<div th:if="${success}">
+    <script>alert("发布成功！")</script>
+</div>
+<div th:if="${error}">
+    <script>alert("信息有误，请检查！")</script>
+</div>
+
+<script>
+    function checkori(){
+        var  test = document.getElementById("oriprice").value;
+        if (isNaN(test)) {
+            document.getElementById("oriprice").value = '';
+            alert("请输入正确数字！");
+        }
+    }
+    function checkcur(){
+        var  test = document.getElementById("curprice").value;
+        if (isNaN(test)) {
+            document.getElementById("curprice").value = '';
+            alert("请输入正确数字！");
+        }
+    }
+</script>

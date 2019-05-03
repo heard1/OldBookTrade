@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="zxx" xmlns:th="http://www.springframework.org/schema/jdbc">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <title>登录</title>
+
+    <!--=== Favicon ===-->
+<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+<!--=== Bootstrap CSS ===-->
+<link href="css/vendor/bootstrap.min.css" rel="stylesheet">
+<!--=== Font-Awesome CSS ===-->
+<link href="css/vendor/font-awesome.css" rel="stylesheet">
+<!--=== Plugins CSS ===-->
+<link href="css/plugins.css" rel="stylesheet">
+<!--=== Helper CSS ===-->
+<link href="css/helper.min.css" rel="stylesheet">
+<!--=== Main Style CSS ===-->
+<link href="css/style.css" rel="stylesheet">
+
+<!-- Modernizer JS -->
+<script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<header id="header-area">
+    <!-- Start Main Menu Area -->
+    <div class="navigation-area" id="fixheader">
+        <div class="container">
+            <div class="row">
+                <!-- Categories List Start -->
+                <div class="col-10 col-lg-3">
+                    <div class="categories-list-wrap">
+                        <button class="btn btn-category d-none d-lg-inline-block">旧书交易网站
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Menu Start -->
+                <div class="col-2 col-lg-9 d-none d-lg-block">
+                    <div class="main-menu-wrap">
+                        <nav class="mainmenu">
+    <ul class="main-navbar clearfix">
+        <li><a href="">主页</a></li>
+        <li><a href="">我要卖书</a></li>
+        <li><a href="">我要买书</a></li>
+        <li><a href="">我的交易</a></li>
+        <li><a href="">书籍搜索</a></li>
+        <li><a href="">聊天室</a></li>
+    </ul>
+</nav>
+                    </div>
+                </div>
+                <!-- Main Menu End -->
+            </div>
+        </div>
+    </div>
+    <!-- End Main Menu Area -->
+</header>
+<!--== End Header Section ==-->
+
+<!--== Page Content Wrapper Start ==-->
+<div id="page-content-wrapper">
+    <div class="container">
+        <div class="member-area-from-wrap">
+            <div class="row">
+                <!-- Login Content Start -->
+                <div class="col-lg-5">
+                    <div class="login-reg-form-wrap  pr-lg-50">
+                        <h2>已有账号?</h2>
+
+                        <form action="postlogin" method="post">
+                            <div class="single-input-item">
+                                <input type="text" name="account" placeholder="请输入账号" required />
+                            </div>
+
+                            <div class="single-input-item">
+                                <input type="password" name="password" placeholder="请输入密码" required />
+                            </div>
+
+                            <div class="single-input-item">
+                                <div class="login-reg-form-meta d-flex align-items-center justify-content-between">
+                                    <div class="remember-meta">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="rememberMe">
+                                            <label class="custom-control-label" for="rememberMe">记住我</label>
+                                        </div>
+                                    </div>
+
+                                    <a href="#" class="forget-pwd">忘记密码？</a>
+                                </div>
+                            </div>
+
+                            <div class="single-input-item col-md-6 m-auto text-center">
+                                <button class="btn">登录</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Login Content End -->
+
+                <!-- Register Content Start -->
+                <div class="col-lg-7 mt-30 mt-lg-0">
+                    <div class="login-reg-form-wrap">
+                        <h2>注册</h2>
+                        <form action="signup" method="post">
+                            <div class="single-input-item">
+                                <input type="text" pattern=".{6,}" name="account" placeholder="请输入账号（至少六位）" required />
+                            </div>
+
+                            <div class="single-input-item">
+                                <input type="email" name="email" placeholder="请输入邮箱" required />
+                            </div>
+
+                            <div class="single-input-item">
+                                <input type="text" name="username" placeholder="请输入用户名（不可更改）" required />
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="single-input-item">
+                                        <input type="password" pattern=".{6,}" id="pass1" name="password" placeholder="输入密码（至少六位）" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="single-input-item">
+                                        <input type="password" id="pass2" placeholder="确认密码" onchange="check()" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                     
+
+                            <div class="single-input-item col-md-6 m-auto text-center">
+                                <button class="btn">注册</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Register Content End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!--== Page Content Wrapper End ==-->
+
+
+
+<!--== Start Footer Area ==-->
+<footer id="footer-area">
+
+
+    <!-- Footer Bottom Area -->
+    <div class="footer-bttom-area">
+        <div class="container">
+            <div class="row">
+                <!-- Copyright Text Area -->
+                <div class="col-md-6 m-auto text-center">
+                    <p>Copyright &copy; 李思聪的BS作业</p>
+                </div>
+                <!-- Copyright Text Area -->
+            </div>
+        </div>
+    </div>
+    <!-- Footer Bottom Area -->
+</footer>
+<!--== End Footer Area ==-->
+
+<!-- Scroll to Top Start -->
+<a href="#" class="scrolltotop"><i class="fa fa-angle-up"></i></a>
+<!-- Scroll to Top End -->
+
+
+<!--=======================Javascript============================-->
+<!--=== Jquery Min Js ===-->
+<script src="js/vendor/jquery-3.3.1.min.js"></script>
+<!--=== Jquery Migrate Min Js ===-->
+<script src="js/vendor/jquery-migrate-1.4.1.min.js"></script>
+<!--=== Popper Min Js ===-->
+<script src="js/vendor/popper.min.js"></script>
+<!--=== Bootstrap Min Js ===-->
+<script src="js/vendor/bootstrap.min.js"></script>
+<!--=== Ajax Mail Js ===-->
+<script src="js/ajax-mail.js"></script>
+<!--=== Plugins Min Js ===-->
+<script src="js/plugins.js"></script>
+
+<!--=== Active Js ===-->
+<script src="js/active.js"></script>
+</body>
+</html>
+
+<div th:if="${alreadyExist}">
+    <script>alert("账号已存在！")</script>
+</div>
+<div th:if="${success}">
+    <script>alert("注册成功！")</script>
+</div>
+<div th:if="${error}">
+    <script>alert("用户名或密码有误！")</script>
+</div>
+
+<script>
+function check(){
+    var pass1 = document.getElementById("pass1").value;
+    var pass2 = document.getElementById("pass2").value;
+    if(pass1 != pass2){
+        document.getElementById("pass2").value = '';
+        alert("两次密码不一致！");
+    }
+}
+</script>
