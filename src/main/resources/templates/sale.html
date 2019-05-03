@@ -76,7 +76,7 @@
                 <div class="checkout-billing-details-wrap">
                     <h2>卖书信息</h2>
                     <div class="billing-form-wrap">
-                        <form action="salebook" method="post">
+                        <form action="salebook" method="post" enctype="multipart/form-data">
                             <div class="single-input-item">
                                 <label >书名</label>
                                 <input type="text" name="bookname" required>
@@ -206,14 +206,14 @@
 <script>
     function checkori(){
         var  test = document.getElementById("oriprice").value;
-        if (isNaN(test)) {
+        if (isNaN(test) || test<0) {
             document.getElementById("oriprice").value = '';
             alert("请输入正确数字！");
         }
     }
     function checkcur(){
         var  test = document.getElementById("curprice").value;
-        if (isNaN(test)) {
+        if (isNaN(test) || test<0) {
             document.getElementById("curprice").value = '';
             alert("请输入正确数字！");
         }

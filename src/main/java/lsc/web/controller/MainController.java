@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -67,10 +68,15 @@ public class MainController {
 
     @PostMapping("/salebook")
     public String salebook(Model model, @RequestParam String bookname, @RequestParam String category, @RequestParam double oriprice,
-                           @RequestParam double curprice, @RequestParam String link, @RequestParam String intro, @RequestParam File upload){
+                           @RequestParam double curprice, @RequestParam String link, @RequestParam String intro, @RequestParam MultipartFile upload){
         if(Book.salebook(sql, bookID, bookname, category, oriprice, curprice, link, intro)) {
-            File newFile = new File("./src/main/resources/static/img/"+bookID+".jpg");
-            System.out.println(upload.renameTo(newFile));
+            String newfileloc = System.getProperty("user.dir")+"/src/main/resources/static/img/"+bookID+".jpg";
+            File newFile = new File(newfileloc);
+            try{
+                upload.transferTo(newFile);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
             bookID++;
             model.addAttribute("success", true);
             return "sale";
