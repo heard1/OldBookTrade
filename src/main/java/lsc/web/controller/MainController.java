@@ -87,6 +87,27 @@ public class MainController {
         }
     }
 
+    @PostMapping("/buybook")
+    public String buybook(Model model, @RequestParam String bookname, @RequestParam String category, @RequestParam double curprice,
+                            @RequestParam String link, @RequestParam String intro, @RequestParam MultipartFile upload){
+        if(Book.buybook(sql, bookID, bookname, category, curprice, link, intro)) {
+            String newfileloc = System.getProperty("user.dir")+"/src/main/resources/static/img/"+bookID+".jpg";
+            File newFile = new File(newfileloc);
+            try{
+                upload.transferTo(newFile);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            bookID++;
+            model.addAttribute("success", true);
+            return "buy";
+        }
+        else {
+            model.addAttribute("error", true);
+            return "buy";
+        }
+    }
+
     @RequestMapping("search.html")
     public String search() {
         return "search";

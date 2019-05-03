@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
-<html class="no-js" lang="zxx">
-
+<html class="no-js" lang="zxx" xmlns:th="http://www.springframework.org/schema/jdbc">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -76,22 +76,40 @@
                 <div class="checkout-billing-details-wrap">
                     <h2>买书信息</h2>
                     <div class="billing-form-wrap">
-                        <form action="#">
+                        <form action="buybook" method="post" enctype="multipart/form-data">
                             <div class="single-input-item">
                                 <label >书名</label>
-                                <input type="text" id="">
+                                <input type="text" name="bookname" required>
                             </div>
 
                             <div class="single-input-item">
                                 <label>类别</label>
-                                <select name="" id="" style="display: none;">
-                                    <option value="悬疑">悬疑</option>
+                                <select name="category" id="category" style="display: none;" required>
+                                    <option value="综合">综合</option>
                                     <option value="哲学">哲学</option>
+                                    <option value="文学">文学</option>
+                                    <option value="艺术">艺术</option>
+                                    <option value="旅游">旅游</option>
+                                    <option value="体育">体育</option>
+                                    <option value="经济">经济</option>
+                                    <option value="法律">法律</option>
+                                    <option value="历史">历史</option>
+                                    <option value="工具">工具</option>
+                                    <option value="其他">其他</option>
                                 </select>
-                                <div class="nice-select" tabindex="0"><span class="current">选择类别</span>
+                                <div class="nice-select" tabindex="0"><span class="current" >选择类别</span>
                                     <ul class="list">
-                                        <li data-value="悬疑" class="option">悬疑</li>
+                                        <li data-value="综合" class="option">综合</li>
                                         <li data-value="哲学" class="option">哲学</li>
+                                        <li data-value="文学" class="option">文学</li>
+                                        <li data-value="艺术" class="option">艺术</li>
+                                        <li data-value="旅游" class="option">旅游</li>
+                                        <li data-value="体育" class="option">体育</li>
+                                        <li data-value="经济" class="option">经济</li>
+                                        <li data-value="法律" class="option">法律</li>
+                                        <li data-value="历史" class="option">历史</li>
+                                        <li data-value="工具" class="option">工具</li>
+                                        <li data-value="其他" class="option">其他</li>
                                     </ul>
                                 </div>
                             </div>
@@ -100,22 +118,22 @@
 
                             <div class="single-input-item">
                                 <label >预期价格</label>
-                                <input type="text" id="">
+                                <input type="text" id="curprice" name="curprice" onchange = "checkcur()" required>
                             </div>
 
                             <div class="single-input-item">
                                 <label >外部链接</label>
-                                <input type="text" id="">
+                                <input type="text" name="link" required>
                             </div>
 
 
                             <div class="single-input-item">
                                 <label for="ordernote">说明</label>
-                                <textarea name="ordernote" id="ordernote" cols="30" rows="3"></textarea>
+                                <textarea name="intro" id="ordernote" cols="30" rows="3"></textarea>
                             </div>
                             <div class="single-input-item">
-                                <label >上传照片</label>
-                                <input type="file" id="upload" name="upload"/> <br />
+                                <label >上传照片（.JPG）</label>
+                                <input type="file" id="upload" name="upload" required/> <br/>
                             </div>
                             <div class="single-input-item col-md-6 m-auto text-center">
                                 <button class="btn">发布</button>
@@ -174,3 +192,18 @@
 <script src="js/active.js"></script>
 </body>
 </html>
+<div th:if="${success}">
+    <script>alert("发布成功！")</script>
+</div>
+<div th:if="${error}">
+    <script>alert("信息有误，请检查！")</script>
+</div>
+<script>
+    function checkcur(){
+        var  test = document.getElementById("curprice").value;
+        if (isNaN(test) || test<0) {
+            document.getElementById("curprice").value = '';
+            alert("请输入正确数字！");
+        }
+    }
+</script>
