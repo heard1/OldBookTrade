@@ -1,16 +1,20 @@
 package lsc.web.controller;
 
 import lsc.web.Book;
+import lsc.web.Trade;
 import lsc.web.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -30,9 +34,13 @@ public class MainController {
 
 
     @PostMapping("/postlogin")
-    public String postlogin(Model model, @RequestParam String account, @RequestParam String password){
-        if(User.login(sql, account, password))
+    public String postlogin(HttpServletResponse response, Model model, @RequestParam String account, @RequestParam String password){
+        if(User.login(sql, account, password)) {
+            // save the cookie of an account
+            Cookie cookie=new Cookie("account", account);
+            response.addCookie(cookie);
             return "home";
+        }
         else {
             model.addAttribute("error", true);
             return "index";
@@ -67,9 +75,10 @@ public class MainController {
     }
 
     @PostMapping("/salebook")
-    public String salebook(Model model, @RequestParam String bookname, @RequestParam String category, @RequestParam double oriprice,
+    public String salebook(@CookieValue("account") String account, Model model, @RequestParam String bookname, @RequestParam String category, @RequestParam double oriprice,
                            @RequestParam double curprice, @RequestParam String link, @RequestParam String intro, @RequestParam MultipartFile upload){
         if(Book.salebook(sql, bookID, bookname, category, oriprice, curprice, link, intro)) {
+            Trade.addTrade(sql, account, null, bookID);
             String newfileloc = System.getProperty("user.dir")+"/src/main/resources/static/img/"+bookID+".jpg";
             File newFile = new File(newfileloc);
             try{
@@ -88,9 +97,10 @@ public class MainController {
     }
 
     @PostMapping("/buybook")
-    public String buybook(Model model, @RequestParam String bookname, @RequestParam String category, @RequestParam double curprice,
+    public String buybook(@CookieValue("account") String account, Model model, @RequestParam String bookname, @RequestParam String category, @RequestParam double curprice,
                             @RequestParam String link, @RequestParam String intro, @RequestParam MultipartFile upload){
         if(Book.buybook(sql, bookID, bookname, category, curprice, link, intro)) {
+            Trade.addTrade(sql, null, account, bookID);
             String newfileloc = System.getProperty("user.dir")+"/src/main/resources/static/img/"+bookID+".jpg";
             File newFile = new File(newfileloc);
             try{
