@@ -43,7 +43,7 @@ public class MainController {
             // save the cookie of an account
             Cookie cookie=new Cookie("account", account);
             response.addCookie(cookie);
-            return "home";
+            return home(model);
         }
         else {
             model.addAttribute("error", true);
@@ -134,7 +134,7 @@ public class MainController {
 
     @RequestMapping("home.html")
     public String home(Model model) {
-        String tem = "select * from book";
+        String tem = "select * from book where SBtype=1 limit 12";
         List<Book> books = new ArrayList<Book>();
         sql.query(tem, new Object[]{}, new RowCallbackHandler() {
             public void processRow(ResultSet rs) throws SQLException {
@@ -149,5 +149,10 @@ public class MainController {
         });
         model.addAttribute("books", books);
         return "home";
+    }
+
+    @RequestMapping("singleBook.html")
+    public String singleBook() {
+        return "singleBook";
     }
 }
