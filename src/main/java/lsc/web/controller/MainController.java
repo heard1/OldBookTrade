@@ -175,7 +175,30 @@ public class MainController {
     }
 
     @RequestMapping("singleBook.html")
-    public String singleBook() {
+    public String singleBook(Model model, @RequestParam String bookID) {
+        String tem = "select * from book where bookID="+bookID;
+        Book singleBook = new Book();
+        String condition = "欲购书籍";
+        sql.query(tem, new Object[]{}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                singleBook.bookID = Integer.parseInt(rs.getString("bookID"));
+                singleBook.bookname = rs.getString("bookname");
+                try{
+                    rs.getString("SBtype");
+                    singleBook.SBtype = true;
+                    singleBook.oriprice = Double.parseDouble(rs.getString("oriprice"));
+                }catch(Exception e){
+                    singleBook.SBtype = false;
+                }
+                singleBook.picURL = "img/" + rs.getString("bookID")+".jpg";
+                singleBook.curprice = Double.parseDouble(rs.getString("curprice"));
+                singleBook.intro = rs.getString("intro");
+                singleBook.category = rs.getString("category");
+            }
+        });
+        if(singleBook.SBtype) condition="出售书籍";
+        model.addAttribute("condition", condition);
+        model.addAttribute("book", singleBook);
         return "singleBook";
     }
 }

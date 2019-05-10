@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html class="no-js" lang="zxx">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,7 +70,7 @@
 
 <div id="page-content-wrapper">
     <div class="container">
-        <div class="row">
+        <div  th:object="${book}" class="row">
             <!-- Single Product Page Content Start -->
             <div class="col-lg-12">
                 <div class="single-product-page-content">
@@ -81,7 +81,7 @@
                                 <div class="product-thumb-carousel owl-carousel owl-loaded owl-drag">
                                     
                                 <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(-890px, 0px, 0px); transition: all 0s ease 0s; width: 3560px;"><div class="owl-item cloned" style="width: 445px;"><div class="single-thumb-item">
-                                        <a href="single-product.html"><img class="img-fluid" src="img/book1.jpg" alt="Product"></a>
+                                        <img class="img-fluid" src="" th:src="${book.picURL}" alt="Product">
                                     </div></div></div></div><div class="owl-dots disabled"></div></div>
                             </div>
                         </div>
@@ -89,34 +89,32 @@
 
                         <!-- Product Details Start -->
                         <div class="col-lg-7">
+                            <br>
                             <div class="product-details">
-                                <h2><a href="single-product.html">
-<br/>
-<br/>
-<br/>
-                                算法导论</a></h2>
-                                <span class="price">¥50.00</span>
-
+                                <h1 th:text="${condition}" style="color:red;font-size:30px">出售书籍</h1>
+                                <br>
+                                <h2 th:text="${book.bookname}">算法导论</h2>
+                                <span th:text="'¥'+${book.curprice}" class="price">¥50.00</span>
                                 <div class="product-info-stock-sku">
-                                    <span class="product-sku-status"><strong>哲学</strong></span>
+                                    <span th:text="${book.category}" class="product-sku-status"><strong>哲学</strong></span>
                                 </div>
-                                <span class="text">原价：¥500.00</span>
+                                <span th:text="'原价：¥'+${book.oriprice}" class="text">原价：¥500.00</span>
 
-                                <p class="products-desc"><br/>一本好书，适合中小学生入门算法</p>
+                                <p th:text="${book.intro}" class="products-desc"><br/>一本好书，适合中小学生入门算法</p>
 
 
                                 <div class="product-quantity d-flex align-items-center">
-
-                                    <a href="cart.html" class="btn btn-cart-large"><i class="fa fa-shopping-cart"></i>加入购物车</a>
+                                    <a href="" class="btn btn-cart-large">加入购物车</a>
                                 </div>
+                                <br>
                                 <a href="">联系发布人</a>
+                                <br>
+                                <a href="">外部链接</a>
                             </div>
                         </div>
                         <!-- Product Details End -->
-                    </div>
 
-                    <div class="row">
-                        
+
                     </div>
                 </div>
             </div>
