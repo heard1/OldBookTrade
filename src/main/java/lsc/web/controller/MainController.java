@@ -51,6 +51,29 @@ public class MainController {
         }
     }
 
+    @PostMapping("/seebuy")
+    public String seeBuy(Model model){
+        String tem = "select * from book where SBtype=0 limit 12";
+        List<Book> books = new ArrayList<Book>();
+        sql.query(tem, new Object[]{}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                Book singleBook = new Book();
+                singleBook.bookID = Integer.parseInt(rs.getString("bookID"));
+                singleBook.bookname = rs.getString("bookname");
+                singleBook.picURL = "img/" + rs.getString("bookID")+".jpg";
+                singleBook.curprice = Double.parseDouble(rs.getString("curprice"));
+                singleBook.intro = rs.getString("intro");
+                books.add(singleBook);
+            }
+        });
+        model.addAttribute("books", books);
+        return "buyhome";
+    }
+    @PostMapping("/seesale")
+    public String seeSale(Model model){
+        return home(model);
+    }
+
     @PostMapping("/signup")
     public String signUp(Model model, @RequestParam String account, @RequestParam String email, @RequestParam String username, @RequestParam String password){
         if(User.signUp(sql, account, password, email, username)) {
