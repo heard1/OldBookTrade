@@ -97,11 +97,11 @@
                                 <div  th:each="book:${books}" class="col-lg-4 col-sm-6">
                                     <div class="single-product-item">
                                         <figure class="product-thumb">
-                                            <a href="singleBook.html"><img src="" th:src="${book.picURL}" alt="Product"></a>
-                                            <a href="singleBook.html" class="btn btn-round btn-cart" title="Quick View" data-toggle="modal" data-target="#quickView"><i class="fa fa-eye"></i></a>
+                                            <a th:href="@{'singleBook.html?bookID='+${book.bookID}}"><img src="" th:src="${book.picURL}" alt="Product"></a>
+                                            <a th:href="@{'singleBook.html?bookID='+${book.bookID}}" class="btn btn-round btn-cart" title="Quick View" data-toggle="modal" data-target="#quickView"><i class="fa fa-eye"></i></a>
                                         </figure>
                                         <div class="product-details">
-                                            <h2 th:text="${book.bookname}" class="product-title text-center"><a href="singleBook.html">算法导论</a></h2>
+                                            <h2 th:text="${book.bookname}" class="product-title text-center"><a th:href="@{'singleBook.html?bookID='+${book.bookID}}">算法导论</a></h2>
                                             <span th:text="${book.curprice}" class="product-price text-center">¥50</span>
 
                                             <p th:text="${book.intro}" class="pro-desc">一本好书，适合中小学生入门算法。</p>
