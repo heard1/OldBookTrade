@@ -194,6 +194,7 @@ public class MainController {
                 singleBook.curprice = Double.parseDouble(rs.getString("curprice"));
                 singleBook.intro = rs.getString("intro");
                 singleBook.category = rs.getString("category");
+                singleBook.link = rs.getString("link");
             }
         });
         if(singleBook.SBtype) condition="出售书籍";
