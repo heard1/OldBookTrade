@@ -5,6 +5,7 @@ import lsc.web.Trade;
 import lsc.web.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -16,7 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -130,10 +134,19 @@ public class MainController {
 
     @RequestMapping("home.html")
     public String home(Model model) {
-        ArrayList<Book> books = new ArrayList<>();
-        for(int i=0; i<10; i++) {
-            books.add(new Book());
-        }
+        String tem = "select * from book";
+        List<Book> books = new ArrayList<Book>();
+        sql.query(tem, new Object[]{}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                Book singleBook = new Book();
+                singleBook.bookID = Integer.parseInt(rs.getString("bookID"));
+                singleBook.bookname = rs.getString("bookname");
+                singleBook.picURL = "img/" + rs.getString("bookID")+".jpg";
+                singleBook.curprice = Double.parseDouble(rs.getString("curprice"));
+                singleBook.intro = rs.getString("intro");
+                books.add(singleBook);
+            }
+        });
         model.addAttribute("books", books);
         return "home";
     }
