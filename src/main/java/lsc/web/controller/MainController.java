@@ -53,7 +53,7 @@ public class MainController {
 
     @PostMapping("/seebuy")
     public String seeBuy(Model model){
-        String tem = "select * from book where SBtype=0 limit 12";
+        String tem = "select * from book where SBtype=0  and isdeal=0 limit 12";
         List<Book> books = new ArrayList<Book>();
         sql.query(tem, new Object[]{}, new RowCallbackHandler() {
             public void processRow(ResultSet rs) throws SQLException {
@@ -151,13 +151,13 @@ public class MainController {
     }
 
     @RequestMapping("trade.html")
-    public String trade() {
+    public String trade(Model model) {
         return "trade";
     }
 
     @RequestMapping("home.html")
     public String home(Model model) {
-        String tem = "select * from book where SBtype=1 limit 12";
+        String tem = "select * from book where SBtype=1 and isdeal=0  limit 12";
         List<Book> books = new ArrayList<Book>();
         sql.query(tem, new Object[]{}, new RowCallbackHandler() {
             public void processRow(ResultSet rs) throws SQLException {
@@ -201,5 +201,25 @@ public class MainController {
         model.addAttribute("condition", condition);
         model.addAttribute("book", singleBook);
         return "singleBook";
+    }
+
+    @RequestMapping("makeTrade")
+    public String makeTrade(@CookieValue("account") String account, Model model, @RequestParam String bookID) {
+        Trade trade = new Trade();
+        trade.isdeal = false;
+        String tem = "select buy,sale from trade where bookID="+bookID;
+        sql.query(tem, new Object[]{}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                if(rs.getString("buy") == null)
+                    Trade.addbuy(sql, account, Integer.parseInt(bookID));
+                else if(rs.getString("sale") == null)
+                    Trade.addsale(sql, account, Integer.parseInt(bookID));
+                else
+                    trade.isdeal = true;
+            }
+        });
+        model.addAttribute("success", !trade.isdeal);
+        model.addAttribute("fail", trade.isdeal);
+        return trade(model);
     }
 }

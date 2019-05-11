@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
-<html class="no-js" lang="zxx">
-
+<html class="no-js" lang="zxx" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -158,3 +158,10 @@
 <script src="js/active.js"></script>
 </body>
 </html>
+
+<div th:if="${success}">
+    <script>alert("加入成功！")</script>
+</div>
+<div th:if="${fail}">
+    <script>alert("加入失败，已有人抢先一步！")</script>
+</div>
