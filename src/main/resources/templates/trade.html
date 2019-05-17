@@ -90,14 +90,14 @@
                         </thead>
                         <tbody>
 
-                        <tr>
-                            <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="img/book1.jpg" alt="Product"></a></td>
-                            <td class="pro-title"><a href="#">算法导论</a></td>
-                            <td class="pro-title"><span>买家</span></td>
-                            <td class="pro-price"><span>¥50.00</span></td>
-                            <td class="pro-title"><span>哲学</span></td>
-                            <td class="pro-subtotal"><span>无</span></td>
-                            <td class="pro-title"><a style="height:0px;border-bottom:1px dashed red" href=""><span>确认交易</span><a></td>
+                        <tr th:each="trade:${trades}">
+                            <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="" th:src="${trade.picURL}" alt="Product"></a></td>
+                            <td th:text="${trade.bookname}" class="pro-title"><a href="#">算法导论</a></td>
+                            <td th:text="${trade.SBtypeStr}" class="pro-title"><span>买家</span></td>
+                            <td th:text="${trade.price}" class="pro-price"><span>¥50.00</span></td>
+                            <td th:text="${trade.category}" class="pro-title"><span>哲学</span></td>
+                            <td th:text="${trade.tradeObjectName}" class="pro-subtotal"><span>无</span></td>
+                            <td class="pro-title"><a style="height:0px;border-bottom:1px dashed red" th:href="@{'confirm?bookID='+${trade.bookID}}"><span>确认交易</span><a></td>
                             <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                         
@@ -164,4 +164,13 @@
 </div>
 <div th:if="${fail}">
     <script>alert("加入失败，已有人抢先一步！")</script>
+</div>
+<div th:if="${confirm}">
+    <script>alert("已确认！")</script>
+</div>
+<div th:if="${alreadyconfirm}">
+    <script>alert("不要重复确认哦！")</script>
+</div>
+<div th:if="${errorconfirm}">
+    <script>alert("无交易对象，交易错误！")</script>
 </div>

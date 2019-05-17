@@ -1,6 +1,7 @@
 package lsc.web.controller;
 
 import lsc.web.Book;
+import lsc.web.MyTrade;
 import lsc.web.Trade;
 import lsc.web.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class MainController {
 
     @PostMapping("/seebuy")
     public String seeBuy(Model model){
-        String tem = "select * from book where SBtype=0  and isdeal=0 limit 12";
+        String tem = "select * from book where SBtype=0  and isdeal=0 order by bookID desc limit 12";
         List<Book> books = new ArrayList<Book>();
         sql.query(tem, new Object[]{}, new RowCallbackHandler() {
             public void processRow(ResultSet rs) throws SQLException {
@@ -151,13 +152,44 @@ public class MainController {
     }
 
     @RequestMapping("trade.html")
-    public String trade(Model model) {
+    public String trade(@CookieValue("account") String account, Model model) {
+        String tem = "select * from trade natural join book where sale = "+account+" or buy = "+account;
+        List<MyTrade> trades = new ArrayList<MyTrade>();
+        sql.query(tem, new Object[]{}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                MyTrade singleTrade = new MyTrade();
+                singleTrade.bookID = rs.getInt("bookID");
+                singleTrade.isdeal = rs.getBoolean("isdeal");
+                singleTrade.picURL = "img/" + rs.getString("bookID")+".jpg";
+                singleTrade.bookname = rs.getString("bookname");
+                singleTrade.price = Double.parseDouble(rs.getString("curprice"));
+                singleTrade.category = rs.getString("category");
+                if (rs.getBoolean("SBtype") == true)
+                    singleTrade.SBtypeStr = "卖家";
+                else
+                    singleTrade.SBtypeStr = "买家";
+                if(rs.getString("buy").equals(account))
+                    singleTrade.tradeObject = rs.getString("sale");
+                else
+                    singleTrade.tradeObject = rs.getString("buy");
+                trades.add(singleTrade);
+            }
+        });
+        for(MyTrade temp : trades) {
+            String temsql = "select username from user where account = "+temp.tradeObject;
+            sql.query(temsql, new Object[]{}, new RowCallbackHandler() {
+                public void processRow(ResultSet rs) throws SQLException {
+                    temp.tradeObjectName = rs.getString("username");
+                }
+            });
+        }
+        model.addAttribute("trades", trades);
         return "trade";
     }
 
     @RequestMapping("home.html")
     public String home(Model model) {
-        String tem = "select * from book where SBtype=1 and isdeal=0  limit 12";
+        String tem = "select * from book where SBtype=1 and isdeal=0 order by bookID desc limit 12";
         List<Book> books = new ArrayList<Book>();
         sql.query(tem, new Object[]{}, new RowCallbackHandler() {
             public void processRow(ResultSet rs) throws SQLException {
@@ -220,6 +252,29 @@ public class MainController {
         });
         model.addAttribute("success", !trade.isdeal);
         model.addAttribute("fail", trade.isdeal);
-        return trade(model);
+        return trade(account, model);
+    }
+
+    @RequestMapping("confirm")
+    public String Confirm(@CookieValue("account") String account, Model model, @RequestParam String bookID) {
+        Trade trade = new Trade();
+        sql.query("select * from trade where bookID = "+bookID, new Object[]{}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                trade.buy = rs.getString("buy");
+                trade.sale = rs.getString("sale");
+                trade.isdeal = rs.getBoolean("isdeal");
+            }
+        });
+        if(trade.buy != null && trade.sale != null && trade.isdeal == false) {
+            sql.update("update trade set isdeal=? where bookID=?", new Object[]{true, bookID});
+            sql.update("update book set isdeal=? where bookID=?", new Object[]{true, bookID});
+            model.addAttribute("confirm", true);
+        }
+        else if(trade.isdeal == true) {
+            model.addAttribute("alreadyconfirm", true);
+        }
+        else
+            model.addAttribute("errorconfirm", true);
+        return trade(account, model);
     }
 }
