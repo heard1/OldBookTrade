@@ -98,7 +98,7 @@
                             <td th:text="${trade.category}" class="pro-title"><span>哲学</span></td>
                             <td th:text="${trade.tradeObjectName}" class="pro-subtotal"><span>无</span></td>
                             <td class="pro-title"><a style="height:0px;border-bottom:1px dashed red" th:href="@{'confirm?bookID='+${trade.bookID}}"><span>确认交易</span><a></td>
-                            <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                            <td class="pro-remove"><a th:href="@{'deleteTrade?bookID='+${trade.bookID}}"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                         
                         </tbody>
@@ -173,4 +173,10 @@
 </div>
 <div th:if="${errorconfirm}">
     <script>alert("无交易对象，交易错误！")</script>
+</div>
+<div th:if="${cannotdelete}">
+    <script>alert("已有交易对象，无法删除！")</script>
+</div>
+<div th:if="${deletesuccess}">
+    <script>alert("删除成功！")</script>
 </div>

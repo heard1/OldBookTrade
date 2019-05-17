@@ -277,4 +277,25 @@ public class MainController {
             model.addAttribute("errorconfirm", true);
         return trade(account, model);
     }
+
+    @RequestMapping("deleteTrade")
+    public String deleteTrade(@CookieValue("account") String account, Model model, @RequestParam String bookID) {
+        Trade trade = new Trade();
+        sql.query("select * from trade where bookID = "+bookID, new Object[]{}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                trade.buy = rs.getString("buy");
+                trade.sale = rs.getString("sale");
+                trade.isdeal = rs.getBoolean("isdeal");
+            }
+        });
+        if(trade.buy == null || trade.sale == null) {
+            sql.update("delete from book where bookID = "+bookID);
+            sql.update("delete from trade where bookID = "+bookID);
+            model.addAttribute("deletesuccess", true);
+        }
+        else {
+            model.addAttribute("cannotdelete", true);
+        }
+        return trade(account, model);
+    }
 }
