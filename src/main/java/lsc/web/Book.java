@@ -2,6 +2,9 @@ package lsc.web;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Book {
     public String bookname;
     public boolean isdeal;
@@ -32,5 +35,10 @@ public class Book {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static List<Book> search(String info) {
+        List<Book> books = new ArrayList<Book>();
+        return books;
     }
 }

@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html class="no-js" lang="zxx">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,7 +67,7 @@
     <!-- End Main Menu Area -->
         <div class="header-middle-area search-box-wrap col-lg-12 m-auto">
             <br/><br/>
-                        <form class="search-form d-flex col-lg-6 m-auto" action="#" method="get">
+                        <form class="search-form d-flex col-lg-6 m-auto" action="searchbook" method="get">
                             <input type="search" name="search" placeholder="输入搜索内容">
                             <button class="btn btn-search"><img src="img/icons/icon-search.png" alt="Search Icon">
                             </button>
@@ -105,92 +105,17 @@
                             <div class="row">
 
                                 <!-- Single Product Start -->
-                                <div class="col-lg-4 col-sm-6">
+                                <div  th:each="book:${books}" class="col-lg-4 col-sm-6">
                                     <div class="single-product-item">
                                         <figure class="product-thumb">
-                                            <a href="single-product.html"><img src="img/book1.jpg" alt="Product"></a>
-                                            <a href="#" class="btn btn-round btn-cart" title="Quick View" data-toggle="modal" data-target="#quickView"><i class="fa fa-eye"></i></a>
+                                            <a th:href="@{'singleBook.html?bookID='+${book.bookID}}"><img src="" th:src="${book.picURL}" alt="Product"></a>
+                                            <a th:href="@{'singleBook.html?bookID='+${book.bookID}}" class="btn btn-round btn-cart" title="Quick View" data-toggle="modal" data-target="#quickView"><i class="fa fa-eye"></i></a>
                                         </figure>
                                         <div class="product-details">
-                                            <h2 class="product-title text-center"><a href="single-product.html">算法导论</a></h2>
-                                            <span class="product-price text-center">¥50</span>
+                                            <h2 th:text="${book.bookname}" class="product-title text-center"><a th:href="@{'singleBook.html?bookID='+${book.bookID}}">算法导论</a></h2>
+                                            <span th:text="${book.curprice}" class="product-price text-center">¥50</span>
 
-                                            <p class="pro-desc">一本好书，适合中小学生入门算法。</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product End --><!-- Single Product Start -->
-                                <div class="col-lg-4 col-sm-6">
-                                    <div class="single-product-item">
-                                        <figure class="product-thumb">
-                                            <a href="single-product.html"><img src="img/book1.jpg" alt="Product"></a>
-                                            <a href="#" class="btn btn-round btn-cart" title="Quick View" data-toggle="modal" data-target="#quickView"><i class="fa fa-eye"></i></a>
-                                        </figure>
-                                        <div class="product-details">
-                                            <h2 class="product-title text-center"><a href="single-product.html">算法导论</a></h2>
-                                            <span class="product-price text-center">¥50</span>
-
-                                            <p class="pro-desc">一本好书，适合中小学生入门算法。</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product End --><!-- Single Product Start -->
-                                <div class="col-lg-4 col-sm-6">
-                                    <div class="single-product-item">
-                                        <figure class="product-thumb">
-                                            <a href="single-product.html"><img src="img/book1.jpg" alt="Product"></a>
-                                            <a href="#" class="btn btn-round btn-cart" title="Quick View" data-toggle="modal" data-target="#quickView"><i class="fa fa-eye"></i></a>
-                                        </figure>
-                                        <div class="product-details">
-                                            <h2 class="product-title text-center"><a href="single-product.html">算法导论</a></h2>
-                                            <span class="product-price text-center">¥50</span>
-
-                                            <p class="pro-desc">一本好书，适合中小学生入门算法。</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product End --><!-- Single Product Start -->
-                                <div class="col-lg-4 col-sm-6">
-                                    <div class="single-product-item">
-                                        <figure class="product-thumb">
-                                            <a href="single-product.html"><img src="img/book1.jpg" alt="Product"></a>
-                                            <a href="#" class="btn btn-round btn-cart" title="Quick View" data-toggle="modal" data-target="#quickView"><i class="fa fa-eye"></i></a>
-                                        </figure>
-                                        <div class="product-details">
-                                            <h2 class="product-title text-center"><a href="single-product.html">算法导论</a></h2>
-                                            <span class="product-price text-center">¥50</span>
-
-                                            <p class="pro-desc">一本好书，适合中小学生入门算法。</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product End --><!-- Single Product Start -->
-                                <div class="col-lg-4 col-sm-6">
-                                    <div class="single-product-item">
-                                        <figure class="product-thumb">
-                                            <a href="single-product.html"><img src="img/book1.jpg" alt="Product"></a>
-                                            <a href="#" class="btn btn-round btn-cart" title="Quick View" data-toggle="modal" data-target="#quickView"><i class="fa fa-eye"></i></a>
-                                        </figure>
-                                        <div class="product-details">
-                                            <h2 class="product-title text-center"><a href="single-product.html">算法导论</a></h2>
-                                            <span class="product-price text-center">¥50</span>
-
-                                            <p class="pro-desc">一本好书，适合中小学生入门算法。</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product End --><!-- Single Product Start -->
-                                <div class="col-lg-4 col-sm-6">
-                                    <div class="single-product-item">
-                                        <figure class="product-thumb">
-                                            <a href="single-product.html"><img src="img/book1.jpg" alt="Product"></a>
-                                            <a href="#" class="btn btn-round btn-cart" title="Quick View" data-toggle="modal" data-target="#quickView"><i class="fa fa-eye"></i></a>
-                                        </figure>
-                                        <div class="product-details">
-                                            <h2 class="product-title text-center"><a href="single-product.html">算法导论</a></h2>
-                                            <span class="product-price text-center">¥50</span>
-
-                                            <p class="pro-desc">一本好书，适合中小学生入门算法。</p>
+                                            <p th:text="${book.intro}" class="pro-desc">一本好书，适合中小学生入门算法。</p>
                                         </div>
                                     </div>
                                 </div>
@@ -201,19 +126,7 @@
                         </div>
                     </div>
 
-                    <div class="products-settings-option d-block d-md-flex">
-                        <nav class="page-pagination">
-                            <ul class="pagination">
-                                <li><a href="#" aria-label="Previous">«</a></li>
-                                <li><a class="current" href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#" aria-label="Next">»</a></li>
-                            </ul>
-                        </nav>
 
-                    
-                    </div>
                 </div>
             </div>
         </div>

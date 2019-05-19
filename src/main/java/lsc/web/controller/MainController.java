@@ -147,7 +147,7 @@ public class MainController {
     }
 
     @RequestMapping("search.html")
-    public String search() {
+    public String search(Model model) {
         return "search";
     }
 
@@ -297,5 +297,12 @@ public class MainController {
             model.addAttribute("cannotdelete", true);
         }
         return trade(account, model);
+    }
+
+    @RequestMapping("searchbook")
+    public String SearchBook(Model model, @RequestParam String info) {
+        List<Book> books = Book.search(info);
+        model.addAttribute("books", books);
+        return search(model);
     }
 }
