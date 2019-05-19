@@ -301,7 +301,7 @@ public class MainController {
 
     @RequestMapping("searchbook")
     public String SearchBook(Model model, @RequestParam String info) {
-        List<Book> books = Book.search(info);
+        List<Book> books = Book.search(sql, info);
         model.addAttribute("books", books);
         return search(model);
     }
