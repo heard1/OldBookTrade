@@ -11,10 +11,10 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class User {
-    private String account;
-    private String password;
-    private String email;
-    private String username;
+    public String account;
+    public String password;
+    public String email;
+    public String username;
 
     public User(String account, String password, String email, String username) {
         try {

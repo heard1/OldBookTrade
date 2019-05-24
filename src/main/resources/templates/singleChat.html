@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <title>聊天</title>
+
+    <!--=== Favicon ===-->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+    <!--=== Bootstrap CSS ===-->
+    <link href="css/vendor/bootstrap.min.css" rel="stylesheet">
+    <!--=== Font-Awesome CSS ===-->
+    <link href="css/vendor/font-awesome.css" rel="stylesheet">
+    <!--=== Plugins CSS ===-->
+    <link href="css/plugins.css" rel="stylesheet">
+    <!--=== Helper CSS ===-->
+    <link href="css/helper.min.css" rel="stylesheet">
+    <!--=== Main Style CSS ===-->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Modernizer JS -->
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<header id="header-area">
+    <!-- Start Main Menu Area -->
+    <div class="navigation-area" id="fixheader">
+        <div class="container">
+            <div class="row">
+                <!-- Categories List Start -->
+                <div class="col-10 col-lg-3">
+                    <div class="categories-list-wrap">
+                        <button class="btn btn-category d-none d-lg-inline-block">旧书交易网站
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Menu Start -->
+                <div class="col-2 col-lg-9 d-none d-lg-block">
+                    <div class="main-menu-wrap">
+                        <nav class="mainmenu">
+                            <ul class="main-navbar clearfix">
+                                <li><a href="home.html">主页</a></li>
+                                <li><a href="sale.html">我要卖书</a></li>
+                                <li><a href="buy.html">我要买书</a></li>
+                                <li><a href="trade.html">我的交易</a></li>
+                                <li><a href="search.html">书籍搜索</a></li>
+                                <li><a href="chat.html">聊天室</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Main Menu End -->
+            </div>
+        </div>
+    </div>
+    <!-- End Main Menu Area -->
+</header>
+<!--== End Header Section ==-->
+
+<!--== Page Content Wrapper Start ==-->
+<div id="page-content-wrapper">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-10 m-auto">
+                <div class="shop-page-content-wrap">
+                    <div class="shop-page-products-wrap">
+                        <div class="products-wrapper products-list-view">
+
+                            <div class="row">
+
+                                <!-- Single Product Start -->
+                                <div  th:each="sentence:${sentences}" class="col-lg-12 col-sm-12 text-center">
+                                    <div class="single-product-item text-center">
+                                        <div class="product-details text-center">
+                                            <h2 th:text="${sentence}" class="product-title text-center">书还在吗？</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Single Product End -->
+
+                                <div class="col-lg-12">
+                                    <div class="checkout-billing-details-wrap">
+                                        <div class="billing-form-wrap">
+                                <form action="message" method="post">
+                                    <div class="single-input-item">
+                                        <label for="ordernote">留言</label>
+                                        <textarea name="intro" id="ordernote" cols="30" rows="3"></textarea>
+                                    </div>
+                                    <div class="single-input-item col-md-6 m-auto text-center">
+                                    <button class="btn text-center">发送</button>
+                                    </div>
+                                </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--== Page Content Wrapper End ==-->
+
+
+
+<!--== Start Footer Area ==-->
+<footer id="footer-area">
+
+
+    <!-- Footer Bottom Area -->
+    <div class="footer-bttom-area">
+        <div class="container">
+            <div class="row">
+                <!-- Copyright Text Area -->
+                <div class="col-md-6 m-auto text-center">
+                    <p>Copyright &copy; 李思聪的BS作业</p>
+                </div>
+                <!-- Copyright Text Area -->
+            </div>
+        </div>
+    </div>
+    <!-- Footer Bottom Area -->
+</footer>
+<!--== End Footer Area ==-->
+
+<!-- Scroll to Top Start -->
+<a href="#" class="scrolltotop"><i class="fa fa-angle-up"></i></a>
+<!-- Scroll to Top End -->
+
+
+<!--=======================Javascript============================-->
+<!--=== Jquery Min Js ===-->
+<script src="js/vendor/jquery-3.3.1.min.js"></script>
+<!--=== Jquery Migrate Min Js ===-->
+<script src="js/vendor/jquery-migrate-1.4.1.min.js"></script>
+<!--=== Popper Min Js ===-->
+<script src="js/vendor/popper.min.js"></script>
+<!--=== Bootstrap Min Js ===-->
+<script src="js/vendor/bootstrap.min.js"></script>
+<!--=== Ajax Mail Js ===-->
+<script src="js/ajax-mail.js"></script>
+<!--=== Plugins Min Js ===-->
+<script src="js/plugins.js"></script>
+
+<!--=== Active Js ===-->
+<script src="js/active.js"></script>
+</body>
+</html>

@@ -305,4 +305,26 @@ public class MainController {
         model.addAttribute("books", books);
         return search(model);
     }
+
+    @RequestMapping("chat.html")
+    public String chat(Model model) {
+        List<User> users = new ArrayList<User>();
+        User singleUser = new User("lsc", "lsc", "lsc", "lsc");
+        users.add(singleUser);
+        users.add(singleUser);
+        users.add(singleUser);
+        users.add(singleUser);
+        model.addAttribute("users", users);
+        return "chat";
+    }
+
+    @RequestMapping("singleChat.html")
+    public String singleChat(Model model, @RequestParam String ID) {
+        List<String> sentences = new ArrayList<String>();
+        sentences.add("666");
+        sentences.add("666666");
+        sentences.add("6666666666");
+        model.addAttribute("sentences", sentences);
+        return "singleChat";
+    }
 }
