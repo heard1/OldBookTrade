@@ -16,6 +16,7 @@ public class User {
     public String email;
     public String username;
 
+    public User(){}
     public User(String account, String password, String email, String username) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -63,6 +64,19 @@ public class User {
             return false;
         }
 
+    }
+
+    public static String findusername(JdbcTemplate sql, String info) {
+         String find = "select * from user where account=" + info;
+         List<User> users = new ArrayList<User>();
+         sql.query(find, new Object[]{}, new RowCallbackHandler() {
+             public void processRow(ResultSet rs) throws SQLException {
+                 User single = new User();
+                 single.username = rs.getString("username");
+                 users.add(single);
+             }
+         });
+        return users.get(0).username;
     }
 
 }

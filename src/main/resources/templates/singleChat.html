@@ -96,7 +96,10 @@
                                 <form action="message" method="post">
                                     <div class="single-input-item">
                                         <label for="ordernote">留言</label>
-                                        <textarea name="intro" id="ordernote" cols="30" rows="3"></textarea>
+                                        <textarea name="mess" id="ordernote" cols="30" rows="3"></textarea>
+                                    </div>
+                                    <div style="visibility:hidden;">
+                                        <input name="sentto" id="sentto" value="" th:value="${obj}">
                                     </div>
                                     <div class="single-input-item col-md-6 m-auto text-center">
                                     <button class="btn text-center">发送</button>

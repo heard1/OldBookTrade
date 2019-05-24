@@ -21,7 +21,9 @@ import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -307,24 +309,56 @@ public class MainController {
     }
 
     @RequestMapping("chat.html")
-    public String chat(Model model) {
+    public String chat(@CookieValue("account") String account, Model model) {
         List<User> users = new ArrayList<User>();
-        User singleUser = new User("lsc", "lsc", "lsc", "lsc");
-        users.add(singleUser);
-        users.add(singleUser);
-        users.add(singleUser);
-        users.add(singleUser);
-        model.addAttribute("users", users);
+        String tem = "select * from message where accountto=" + account + " or accountfrom=" + account;
+        sql.query(tem, new Object[]{}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                User singleUser = new User();
+                String tem1 = rs.getString("accountto");
+                String tem2 = rs.getString("accountfrom");
+                if(account == tem1)
+                    singleUser.account = tem2;
+                else
+                    singleUser.account = tem1;
+                singleUser.username = User.findusername(sql, singleUser.account);
+                users.add(singleUser);
+            }
+        });
+        Set<User> Fusers = new HashSet<>();
+        Set<String> useraccount = new HashSet<>();
+        for(User user : users) {
+            if(!useraccount.contains(user.account) && !user.account.equals(account)) {
+                //System.out.println(user.account+" "+account);
+                Fusers.add(user);
+                useraccount.add(user.account);
+            }
+        }
+        model.addAttribute("users", Fusers);
         return "chat";
     }
 
     @RequestMapping("singleChat.html")
-    public String singleChat(Model model, @RequestParam String ID) {
+    public String singleChat(@CookieValue("account") String account, Model model, @RequestParam String ID) {
         List<String> sentences = new ArrayList<String>();
-        sentences.add("666");
-        sentences.add("666666");
-        sentences.add("6666666666");
+        String tem = "select * from message where accountto=" + account +" and accountfrom="+ID+" or accountto="+ID+" and accountfrom="+account;
+        sql.query(tem, new Object[]{}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                String from = rs.getString("accountfrom");
+                String to = rs.getString("accountto");
+                String mess = rs.getString("mess");
+                String addsen = User.findusername(sql, from)+" tells "+User.findusername(sql, to)+": "+mess;
+                sentences.add(addsen);
+            }
+        });
+        model.addAttribute("obj", ID);
         model.addAttribute("sentences", sentences);
         return "singleChat";
+    }
+
+    @RequestMapping("message")
+    public String message(@CookieValue("account") String account, Model model, @RequestParam String mess, @RequestParam String sentto) {
+        sql.update("insert into message (accountfrom, accountto, mess) values(?,?,?)",new Object[] {account, sentto, mess});
+        return singleChat(account, model, sentto);
     }
 }
