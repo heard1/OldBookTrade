@@ -17,6 +17,7 @@ public class User {
     public String username;
 
     public User(){}
+    // 生成一个用户，密码用md5加密
     public User(String account, String password, String email, String username) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -27,7 +28,7 @@ public class User {
         this.email = email;
         this.username = username;
     }
-
+    // 数据库操作：查找账户是否匹配
     public static boolean login(JdbcTemplate sql, String account, String password) {
         String tem = "select password from user where account = ?";
         List<User> userList = new ArrayList<User>();
@@ -50,7 +51,7 @@ public class User {
         }
         return false;
     }
-
+    // 数据库操作：记录一个新用户
     public static boolean signUp(JdbcTemplate sql, String account, String password, String email, String username) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -65,7 +66,7 @@ public class User {
         }
 
     }
-
+    // 数据库操作：根据账户名找username
     public static String findusername(JdbcTemplate sql, String info) {
          String find = "select * from user where account=?";
          List<User> users = new ArrayList<User>();
@@ -78,7 +79,7 @@ public class User {
          });
         return users.get(0).username;
     }
-
+    // 数据库操作：根据bookID找account
     public static String findaccount(JdbcTemplate sql, Boolean SB, int bookID) {
         String find;
         List<User> users = new ArrayList<User>();

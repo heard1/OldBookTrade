@@ -24,7 +24,7 @@ public class Book {
     public String picURL;
 
     public Book() {}
-
+    // 数据库操作：加入卖出书籍
     public static boolean salebook(JdbcTemplate sql, int bookID, String bookname, String category, double oriprice, double curprice, String link, String intro) {
         try{
             sql.update("insert into book (bookID, bookname, isdeal, SBtype, oriprice, curprice, link, intro, category) values(?,?,?,?,?,?,?,?,?)",new Object[] {bookID, bookname, false, true, oriprice, curprice, link, intro, category});
@@ -33,7 +33,7 @@ public class Book {
             return false;
         }
     }
-
+    // 数据库操作：加入买入书籍
     public static boolean buybook(JdbcTemplate sql, int bookID, String bookname, String category, double curprice, String link, String intro) {
         try{
             sql.update("insert into book (bookID, bookname, isdeal, SBtype, curprice, link, intro, category) values(?,?,?,?,?,?,?,?)",new Object[] {bookID, bookname, false, false, curprice, link, intro, category});
@@ -42,7 +42,7 @@ public class Book {
             return false;
         }
     }
-
+    // 数据库操作：查找有关书籍
     public static List<Book> search(JdbcTemplate sql, String info) {
         List<Book> books = new ArrayList<Book>();
         Set<Integer> bookSet = new HashSet<>();

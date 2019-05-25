@@ -1,5 +1,5 @@
 package lsc.web;
-
+// 用于记录用户的交易信息
 public class MyTrade {
     public String picURL;
     public String bookname;

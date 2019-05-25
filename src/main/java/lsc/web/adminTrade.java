@@ -1,5 +1,6 @@
 package lsc.web;
 
+// 用于记录给管理员操作的书籍和账户信息
 public class adminTrade {
     public String username;
     public String bookname;

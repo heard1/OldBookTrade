@@ -30,17 +30,18 @@ import java.util.Set;
 @Controller
 public class MainController {
 
+    // 操作数据库
     @Autowired
     private JdbcTemplate sql;
-
+    // 初始化book ID
     int bookID = 0;
-
+    // 初始化登录界面
     @RequestMapping(value={"/index","/"})
     public String login() {
         return "index";
     }
 
-
+    // 登录操作
     @PostMapping("/postlogin")
     public String postlogin(HttpServletResponse response, Model model, @RequestParam String account, @RequestParam String password){
         if(User.login(sql, account, password)) {
@@ -56,7 +57,7 @@ public class MainController {
             return "index";
         }
     }
-
+    // 查看欲购书籍的列表
     @PostMapping("/seebuy")
     public String seeBuy(Model model){
         String tem = "select * from book where SBtype=0  and isdeal=0 order by bookID desc limit 12";
@@ -79,7 +80,7 @@ public class MainController {
     public String seeSale(Model model){
         return home(model);
     }
-
+    // 登录界面
     @PostMapping("/signup")
     public String signUp(Model model, @RequestParam String account, @RequestParam String email, @RequestParam String username, @RequestParam String password){
         if(User.signUp(sql, account, password, email, username)) {
@@ -91,12 +92,12 @@ public class MainController {
             return "index";
         }
     }
-
+    // 管理员界面
     @RequestMapping("admin.html")
     public String admin() {
         return "admin";
     }
-
+    // 管理员查找账户
     @RequestMapping("Ausersearch")
     public String Ausersearch(Model model, @RequestParam String account) {
         List<adminTrade> trades = new ArrayList<>();
@@ -133,7 +134,7 @@ public class MainController {
         model.addAttribute("trades", trades);
         return "admin";
     }
-
+    // 管理员查找书籍
     @RequestMapping("Abooksearch")
     public String Abooksearch(Model model, @RequestParam String bookname) {
         List<adminTrade> tradesB = new ArrayList<>();
@@ -163,7 +164,7 @@ public class MainController {
         model.addAttribute("tradesB", tradesB);
         return "admin";
     }
-
+    // 管理员删除数据
     @RequestMapping("AdeleteTrade")
     public String AdeleteTrade(@CookieValue("account") String account, Model model, @RequestParam String bookID) {
         Trade trade = new Trade();
@@ -173,17 +174,17 @@ public class MainController {
         return "admin";
     }
 
-
+    // 发布购买书籍信息
     @RequestMapping("buy.html")
     public String buy() {
         return "buy";
     }
-
+    // 发布卖出书籍信息
     @RequestMapping("sale.html")
     public String sale() {
         return "sale";
     }
-
+    // 卖出书籍post信息
     @PostMapping("/salebook")
     public String salebook(@CookieValue("account") String account, Model model, @RequestParam String bookname, @RequestParam String category, @RequestParam double oriprice,
                            @RequestParam double curprice, @RequestParam String link, @RequestParam String intro, @RequestParam MultipartFile upload){
@@ -205,7 +206,7 @@ public class MainController {
             return "sale";
         }
     }
-
+    // 买入书籍信息录入
     @PostMapping("/buybook")
     public String buybook(@CookieValue("account") String account, Model model, @RequestParam String bookname, @RequestParam String category, @RequestParam double curprice,
                             @RequestParam String link, @RequestParam String intro, @RequestParam MultipartFile upload){
@@ -227,12 +228,12 @@ public class MainController {
             return "buy";
         }
     }
-
+    // 返回查询界面
     @RequestMapping("search.html")
     public String search(Model model) {
         return "search";
     }
-
+    // 查看交易
     @RequestMapping("trade.html")
     public String trade(@CookieValue("account") String account, Model model) {
         String tem = "select * from trade natural join book where sale = ? or buy = ?";
@@ -268,7 +269,7 @@ public class MainController {
         model.addAttribute("trades", trades);
         return "trade";
     }
-
+    // 返回书籍首页
     @RequestMapping("home.html")
     public String home(Model model) {
         String tem = "select * from book where SBtype=1 and isdeal=0 order by bookID desc limit 12";
@@ -287,7 +288,7 @@ public class MainController {
         model.addAttribute("books", books);
         return "home";
     }
-
+    // 单个书籍的详细信息
     @RequestMapping("singleBook.html")
     public String singleBook(Model model, @RequestParam String bookID) {
         String tem = "select * from book where bookID="+bookID;
@@ -319,7 +320,7 @@ public class MainController {
         model.addAttribute("book", singleBook);
         return "singleBook";
     }
-
+    // 加入交易
     @RequestMapping("makeTrade")
     public String makeTrade(@CookieValue("account") String account, Model model, @RequestParam String bookID) {
         Trade trade = new Trade();
@@ -339,7 +340,7 @@ public class MainController {
         model.addAttribute("fail", trade.isdeal);
         return trade(account, model);
     }
-
+    // 确认交易
     @RequestMapping("confirm")
     public String Confirm(@CookieValue("account") String account, Model model, @RequestParam String bookID) {
         Trade trade = new Trade();
@@ -362,7 +363,7 @@ public class MainController {
             model.addAttribute("errorconfirm", true);
         return trade(account, model);
     }
-
+    // 删除交易
     @RequestMapping("deleteTrade")
     public String deleteTrade(@CookieValue("account") String account, Model model, @RequestParam String bookID) {
         Trade trade = new Trade();
@@ -383,14 +384,14 @@ public class MainController {
         }
         return trade(account, model);
     }
-
+    // 查找书籍
     @RequestMapping("searchbook")
     public String SearchBook(Model model, @RequestParam String info) {
         List<Book> books = Book.search(sql, info);
         model.addAttribute("books", books);
         return search(model);
     }
-
+    // 聊天界面
     @RequestMapping("chat.html")
     public String chat(@CookieValue("account") String account, Model model) {
         List<User> users = new ArrayList<User>();
@@ -420,7 +421,7 @@ public class MainController {
         model.addAttribute("users", Fusers);
         return "chat";
     }
-
+    // 单个对象一对一聊天
     @RequestMapping("singleChat.html")
     public String singleChat(@CookieValue("account") String account, Model model, @RequestParam String ID) {
         List<String> sentences = new ArrayList<String>();
@@ -438,7 +439,7 @@ public class MainController {
         model.addAttribute("sentences", sentences);
         return "singleChat";
     }
-
+    // 发送信息
     @RequestMapping("message")
     public String message(@CookieValue("account") String account, Model model, @RequestParam String mess, @RequestParam String sentto) {
         sql.update("insert into message (accountfrom, accountto, mess) values(?,?,?)",new Object[] {account, sentto, mess});
