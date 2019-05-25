@@ -107,7 +107,7 @@
                                     <a th:href="@{'makeTrade?bookID='+${book.bookID}}" class="btn btn-cart-large">加入交易</a>
                                 </div>
                                 <br>
-                                <a href="">联系发布人</a>
+                                <a th:href="@{'singleChat.html?ID='+${obj}}">联系发布人</a>
                                 <br>
                                 <a th:href="@{'http://'+${book.link}}">外部链接</a>
                             </div>

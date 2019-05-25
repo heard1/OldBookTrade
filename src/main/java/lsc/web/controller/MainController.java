@@ -2,6 +2,7 @@ package lsc.web.controller;
 
 import lsc.web.Book;
 import lsc.web.MyTrade;
+import lsc.web.adminTrade;
 import lsc.web.Trade;
 import lsc.web.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,8 @@ public class MainController {
             // save the cookie of an account
             Cookie cookie=new Cookie("account", account);
             response.addCookie(cookie);
+            if(account.equals("administrator"))
+                return "admin";
             return home(model);
         }
         else {
@@ -93,6 +96,83 @@ public class MainController {
     public String admin() {
         return "admin";
     }
+
+    @RequestMapping("Ausersearch")
+    public String Ausersearch(Model model, @RequestParam String account) {
+        List<adminTrade> trades = new ArrayList<>();
+        String tem = "select * from book natural join trade where sale = ? or buy = ?";
+        sql.query(tem, new Object[]{account,account}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                adminTrade single = new adminTrade();
+                single.bookID = rs.getString("bookID");
+                single.bookname = rs.getString("bookname");
+                if(rs.getBoolean("isdeal"))
+                    single.isdeal = "是";
+                else
+                    single.isdeal = "否";
+                if(rs.getBoolean("SBtype"))
+                    single.SBtype = "卖方";
+                else
+                    single.SBtype = "买方";
+                single.price = rs.getDouble("curprice");
+                single.category = rs.getString("category");
+                String sale = rs.getString("sale");
+                String buy = rs.getString("buy");
+                if(sale.equals(account)) {
+                    single.obj = buy;
+                    single.username = User.findusername(sql, sale);
+                }
+                else {
+                    single.obj = sale;
+                    single.username = User.findusername(sql, buy);
+                }
+                trades.add(single);
+            }
+        });
+        model.addAttribute("account", account);
+        model.addAttribute("trades", trades);
+        return "admin";
+    }
+
+    @RequestMapping("Abooksearch")
+    public String Abooksearch(Model model, @RequestParam String bookname) {
+        List<adminTrade> tradesB = new ArrayList<>();
+        String tem = "select * from book natural join trade where bookname = ?";
+        sql.query(tem, new Object[]{bookname}, new RowCallbackHandler() {
+            public void processRow(ResultSet rs) throws SQLException {
+                adminTrade single = new adminTrade();
+                single.bookID = rs.getString("bookID");
+                single.bookname = rs.getString("bookname");
+                single.isdeal = rs.getString("isdeal");
+                if(rs.getBoolean("SBtype"))
+                    single.SBtype = "卖方";
+                else
+                    single.SBtype = "买方";
+                single.price = rs.getDouble("curprice");
+                single.category = rs.getString("category");
+                single.sale = rs.getString("sale");
+                single.buy = rs.getString("buy");
+                if(rs.getBoolean("isdeal"))
+                    single.isdeal = "是";
+                else
+                    single.isdeal = "否";
+                tradesB.add(single);
+            }
+        });
+        model.addAttribute("bookname", bookname);
+        model.addAttribute("tradesB", tradesB);
+        return "admin";
+    }
+
+    @RequestMapping("AdeleteTrade")
+    public String AdeleteTrade(@CookieValue("account") String account, Model model, @RequestParam String bookID) {
+        Trade trade = new Trade();
+        sql.update("delete from book where bookID = "+bookID);
+        sql.update("delete from trade where bookID = "+bookID);
+        model.addAttribute("success", true);
+        return "admin";
+    }
+
 
     @RequestMapping("buy.html")
     public String buy() {
@@ -155,9 +235,9 @@ public class MainController {
 
     @RequestMapping("trade.html")
     public String trade(@CookieValue("account") String account, Model model) {
-        String tem = "select * from trade natural join book where sale = "+account+" or buy = "+account;
+        String tem = "select * from trade natural join book where sale = ? or buy = ?";
         List<MyTrade> trades = new ArrayList<MyTrade>();
-        sql.query(tem, new Object[]{}, new RowCallbackHandler() {
+        sql.query(tem, new Object[]{account, account}, new RowCallbackHandler() {
             public void processRow(ResultSet rs) throws SQLException {
                 MyTrade singleTrade = new MyTrade();
                 singleTrade.bookID = rs.getInt("bookID");
@@ -178,8 +258,8 @@ public class MainController {
             }
         });
         for(MyTrade temp : trades) {
-            String temsql = "select username from user where account = "+temp.tradeObject;
-            sql.query(temsql, new Object[]{}, new RowCallbackHandler() {
+            String temsql = "select username from user where account = ?";
+            sql.query(temsql, new Object[]{temp.tradeObject}, new RowCallbackHandler() {
                 public void processRow(ResultSet rs) throws SQLException {
                     temp.tradeObjectName = rs.getString("username");
                 }
@@ -231,7 +311,10 @@ public class MainController {
                 singleBook.link = rs.getString("link");
             }
         });
-        if(singleBook.SBtype) condition="出售书籍";
+        if(singleBook.SBtype) {
+            condition="出售书籍";
+            model.addAttribute("obj", User.findaccount(sql, true, singleBook.bookID));
+        }
         model.addAttribute("condition", condition);
         model.addAttribute("book", singleBook);
         return "singleBook";
@@ -311,8 +394,8 @@ public class MainController {
     @RequestMapping("chat.html")
     public String chat(@CookieValue("account") String account, Model model) {
         List<User> users = new ArrayList<User>();
-        String tem = "select * from message where accountto=" + account + " or accountfrom=" + account;
-        sql.query(tem, new Object[]{}, new RowCallbackHandler() {
+        String tem = "select * from message where accountto=? or accountfrom=?";
+        sql.query(tem, new Object[]{account, account}, new RowCallbackHandler() {
             public void processRow(ResultSet rs) throws SQLException {
                 User singleUser = new User();
                 String tem1 = rs.getString("accountto");
@@ -341,8 +424,8 @@ public class MainController {
     @RequestMapping("singleChat.html")
     public String singleChat(@CookieValue("account") String account, Model model, @RequestParam String ID) {
         List<String> sentences = new ArrayList<String>();
-        String tem = "select * from message where accountto=" + account +" and accountfrom="+ID+" or accountto="+ID+" and accountfrom="+account;
-        sql.query(tem, new Object[]{}, new RowCallbackHandler() {
+        String tem = "select * from message where accountto=? and accountfrom=? or accountto=? and accountfrom=?";
+        sql.query(tem, new Object[]{account,ID,ID,account}, new RowCallbackHandler() {
             public void processRow(ResultSet rs) throws SQLException {
                 String from = rs.getString("accountfrom");
                 String to = rs.getString("accountto");

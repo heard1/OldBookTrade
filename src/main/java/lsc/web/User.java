@@ -67,9 +67,9 @@ public class User {
     }
 
     public static String findusername(JdbcTemplate sql, String info) {
-         String find = "select * from user where account=" + info;
+         String find = "select * from user where account=?";
          List<User> users = new ArrayList<User>();
-         sql.query(find, new Object[]{}, new RowCallbackHandler() {
+         sql.query(find, new Object[]{info}, new RowCallbackHandler() {
              public void processRow(ResultSet rs) throws SQLException {
                  User single = new User();
                  single.username = rs.getString("username");
@@ -77,6 +77,31 @@ public class User {
              }
          });
         return users.get(0).username;
+    }
+
+    public static String findaccount(JdbcTemplate sql, Boolean SB, int bookID) {
+        String find;
+        List<User> users = new ArrayList<User>();
+        if(SB) {
+            find = "select * from trade where bookID=?";
+            sql.query(find, new Object[]{bookID}, new RowCallbackHandler() {
+                public void processRow(ResultSet rs) throws SQLException {
+                    User single = new User();
+                    single.account = rs.getString("sale");
+                    users.add(single);
+                }
+            });
+        }else {
+            find = "select * from trade where bookID=?";
+            sql.query(find, new Object[]{bookID}, new RowCallbackHandler() {
+                public void processRow(ResultSet rs) throws SQLException {
+                    User single = new User();
+                    single.account = rs.getString("buy");
+                    users.add(single);
+                }
+            });
+        }
+        return users.get(0).account;
     }
 
 }

@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
-<html class="no-js" lang="zxx">
-
+<html class="no-js" lang="zxx" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -76,10 +76,10 @@
                 <div class="checkout-billing-details-wrap">
                     <h2>用户信息搜索</h2>
                     <div class="billing-form-wrap">
-                        <form action="#">
+                        <form action="Ausersearch" method="post">
                             <div class="single-input-item">
-                                <label >用户名</label>
-                                <input type="text" id="">
+                                <label >账户名</label>
+                                <input type="text" placeholder="" th:placeholder="${account}" name="account" required>
                             </div>
                             <div class="single-input-item col-md-6 m-auto text-center">
                                 <button class="btn">搜索</button>
@@ -104,14 +104,14 @@
                         </thead>
                         <tbody>
 
-                        <tr>
-                            <td class="pro-title">a</td>
-                            <td class="pro-title"><span>算法导论</span></td>
-                            <td class="pro-price"><span>¥50.00</span></td>
-                            <td class="pro-title"><span>无</span></td>
-                            <td class="pro-subtotal"><span>无</span></td>
-                            <td class="pro-title"><span>否</span></td>
-                            <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                        <tr th:each="trade:${trades}">
+                            <td th:text="${trade.username}" class="pro-title">lsc</td>
+                            <td th:text="${trade.bookname}" ><span>算法导论</span></td>
+                            <td th:text="${trade.price}" class="pro-price"><span>¥50.00</span></td>
+                            <td th:text="${trade.SBtype}" class="pro-title"><span>无</span></td>
+                            <td th:text="${trade.obj}" class="pro-subtotal"><span>无</span></td>
+                            <td th:text="${trade.isdeal}" class="pro-title"><span>否</span></td>
+                            <td class="pro-remove"><a th:href="@{'AdeleteTrade?bookID='+${trade.bookID}}"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                         
                         </tbody>
@@ -131,10 +131,10 @@
                 <div class="checkout-billing-details-wrap">
                     <h2>书籍信息搜索</h2>
                     <div class="billing-form-wrap">
-                        <form action="#">
+                        <form action="Abooksearch" method="post">
                             <div class="single-input-item">
                                 <label >书名</label>
-                                <input type="text" id="">
+                                <input type="text" placeholder="" th:placeholder="${bookname}" name="bookname" required>
                             </div>
                             <div class="single-input-item col-md-6 m-auto text-center">
                                 <button class="btn">搜索</button>
@@ -148,29 +148,25 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th class="pro-thumbnail">图片</th>
-                            <th class="pro-title">名称</th>
+                            <th class="pro-title">书籍编号</th>
                             <th class="pro-title">买方</th>
                             <th class="pro-title">卖方</th>
                             <th class="pro-price">价格</th>
                             <th class="pro-title">类别</th>
-                            <th class="pro-subtotal">交易对象</th>
                             <th class="pro-title">交易与否</th>
                             <th class="pro-remove">删除</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <tr>
-                            <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="img/book1.jpg" alt="Product"></a></td>
-                            <td class="pro-title"><a href="#">算法导论</a></td>
-                            <td class="pro-title"><span>a</span></td>
-                            <td class="pro-title"><span>b</span></td>
-                            <td class="pro-price"><span>¥50.00</span></td>
-                            <td class="pro-title"><span>哲学</span></td>
-                            <td class="pro-subtotal"><span>无</span></td>
-                            <td class="pro-title"><a style="height:0px;border-bottom:1px dashed red" href=""><span>确认交易</span></a><a></a></td>
-                            <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                        <tr th:each="trade:${tradesB}">
+                            <td th:text="${trade.bookID}" class="pro-title"><a th:href="@{'singleBook.html?bookID='+${book.bookID}}">123</a></td>
+                            <td th:text="${trade.buy}" class="pro-title"><span>买方</span></td>
+                            <td th:text="${trade.sale}" class="pro-title"><span>买方</span></td>
+                            <td th:text="${trade.price}" class="pro-price"><span>¥50.00</span></td>
+                            <td th:text="${trade.category}" class="pro-title"><span>哲学</span></td>
+                            <td th:text="${trade.isdeal}" class="pro-subtotal"><span>否</span></td>
+                            <td class="pro-remove"><a th:href="@{'AdeleteTrade?bookID='+${trade.bookID}}"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                         
                         </tbody>
@@ -226,5 +222,8 @@
 
 <!--=== Active Js ===-->
 <script src="js/active.js"></script>
+<div th:if="${success}">
+    <script>alert("删除成功！")</script>
+</div>
 </body>
 </html>
