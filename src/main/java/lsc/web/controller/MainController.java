@@ -192,8 +192,11 @@ public class MainController {
             Trade.addTrade(sql, account, null, bookID);
             String newfileloc = System.getProperty("user.dir")+"/src/main/resources/static/img/"+bookID+".jpg";
             File newFile = new File(newfileloc);
+            String newfileloc1 = System.getProperty("user.dir")+"/target/classes/static/img/"+bookID+".jpg";
+            File newFile1 = new File(newfileloc1);
             try{
                 upload.transferTo(newFile);
+                upload.transferTo(newFile1);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -214,8 +217,11 @@ public class MainController {
             Trade.addTrade(sql, null, account, bookID);
             String newfileloc = System.getProperty("user.dir")+"/src/main/resources/static/img/"+bookID+".jpg";
             File newFile = new File(newfileloc);
+            String newfileloc1 = System.getProperty("user.dir")+"/target/classes/static/img/"+bookID+".jpg";
+            File newFile1 = new File(newfileloc1);
             try{
                 upload.transferTo(newFile);
+                upload.transferTo(newFile1);
             } catch (Exception e){
                 e.printStackTrace();
             }
