@@ -119,11 +119,15 @@ public class MainController {
                 single.category = rs.getString("category");
                 String sale = rs.getString("sale");
                 String buy = rs.getString("buy");
-                if(sale.equals(account)) {
-                    single.obj = buy;
-                    single.username = User.findusername(sql, sale);
-                }
-                else {
+                try {
+                    if (sale.equals(account)) {
+                        single.obj = buy;
+                        single.username = User.findusername(sql, sale);
+                    } else {
+                        single.obj = sale;
+                        single.username = User.findusername(sql, buy);
+                    }
+                }catch(Exception e){
                     single.obj = sale;
                     single.username = User.findusername(sql, buy);
                 }
