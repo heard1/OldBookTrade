@@ -1,0 +1,36 @@
+create table user(
+account varchar(100),
+password varchar(100),
+email varchar(100),
+username varchar(100),
+primary key (account)
+)DEFAULT CHARSET=utf8;
+
+
+create table book(
+bookname varchar(100),
+isdeal bool,
+SBtype bool,
+bookID int,
+oriprice double,
+curprice double,
+link varchar(200),
+intro varchar(1000),
+category varchar(100),
+primary key (bookID)
+)DEFAULT CHARSET=utf8;
+
+
+create table trade(
+sale varchar(100),
+buy varchar(100),
+bookID int,
+isdeal bool
+)DEFAULT CHARSET=utf8;
+
+
+create table message(
+accountfrom varchar(100),
+accountto varchar(100),
+mess varchar(300)
+)DEFAULT CHARSET=utf8;
